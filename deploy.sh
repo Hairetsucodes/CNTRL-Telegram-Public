@@ -1,4 +1,4 @@
-cd /home/azureuser/TeleMe
+cd /home/azureuser/CNTRL-Telegram-Public
 git pull origin main
 
 # Activate virtual environment and install requirements
