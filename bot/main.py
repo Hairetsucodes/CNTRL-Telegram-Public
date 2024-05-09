@@ -30,14 +30,14 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         """
 Welcome to CNTRL AI bot.
 Here are a list of commands you can use:
-/cntrl - Use this command to interact with the AI.
+/ai - Use this command to interact with the AI.
 /help - Use this command to get help.
         """
     )
 
 
 async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if len(set(update.message.text.strip('/cntrl '))) < 2:
+    if len(set(update.message.text.strip('/ai '))) < 2:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
     print(update.message.text)
     temporary = await update.message.reply_text("Just a second! I am processing your request.")
@@ -56,7 +56,7 @@ def main() -> None:
     token = os.getenv("BOT_API_KEY")
     application = Application.builder().token(token).build()
     application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CommandHandler("cntrl", ai))
+    application.add_handler(CommandHandler("ai", ai))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 

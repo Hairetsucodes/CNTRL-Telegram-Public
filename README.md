@@ -49,3 +49,11 @@ sudo cp supervisor/conf.d/tele-me.conf /etc/supervisor/conf.d/tele-me.conf
 ```bash 
 sudo service supervisor restart
 ```
+
+
+
+# TODO
+
+- ___ Word Counter
+- /tldr
+- /lastyoutube
