@@ -48,11 +48,15 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(response)
 
 
+def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    update.message.reply_text(update.message.text)
+
 def main() -> None:
     token = os.getenv("BOT_API_KEY")
     application = Application.builder().token(token).build()
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("cntrl", ai))
+    application.add_handler(MessageHandler(filters.Text & ~filters.Command, echo))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
