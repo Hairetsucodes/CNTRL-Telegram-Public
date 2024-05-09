@@ -48,8 +48,9 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(response)
 
 
-def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    update.message.reply_text(update.message.text)
+async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Echo the user message."""
+    await update.message.reply_text(update.message.text)
 
 def main() -> None:
     token = os.getenv("BOT_API_KEY")
