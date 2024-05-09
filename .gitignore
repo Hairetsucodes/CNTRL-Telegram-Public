@@ -1,0 +1,7 @@
+.env
+venv
+db/__pycache__/config.cpython-310.pyc
+db/__pycache__/db.cpython-310.pyc
+db/__pycache__/models.cpython-310.pyc
+__pycache__/ai.cpython-310.pyc
+__pycache__/db.cpython-310.pyc
