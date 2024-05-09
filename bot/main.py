@@ -57,7 +57,7 @@ def main() -> None:
     application = Application.builder().token(token).build()
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("cntrl", ai))
-    application.add_handler(MessageHandler(filters.Text & ~filters.Command, echo))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
