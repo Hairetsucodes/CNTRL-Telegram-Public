@@ -1,5 +1,5 @@
 cd ~/TeleMe
-git pull origin master
+git pull origin main
 
 # Activate virtual environment and install requirements
 source venv/bin/activate
