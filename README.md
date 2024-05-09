@@ -31,7 +31,7 @@ python main.py
 ## Production
 5. Install supervisord: 
 ```bash 
-sudo apt-get install supervisor
+sudo apt install supervisor
 ```
 6. Make sure supervisord is running: 
 ```bash 
