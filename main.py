@@ -4,7 +4,7 @@ import logging
 
 from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
-from ai import ai_request
+from commands.ai import ai_request
 from db.db import engine
 
 
