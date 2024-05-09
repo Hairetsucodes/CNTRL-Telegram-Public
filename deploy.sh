@@ -1,4 +1,4 @@
-cd ~/TeleMe
+cd home/azureuser/TeleMe
 git pull origin main
 
 # Activate virtual environment and install requirements
