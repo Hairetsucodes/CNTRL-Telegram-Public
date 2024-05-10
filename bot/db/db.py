@@ -32,7 +32,7 @@ def add_message(id, username, chatId, message):
             add_user(username, id)
             db_session.commit()  # Ensure user addition is committed.
 
-        if chatId == id:  # Assuming this logic is intended; revise if necessary.
+        if chatId != id:  # Assuming this logic is intended; revise if necessary.
             new_message = ChatMessages(username=username, userId=id, chatId=chatId, message=message)
         else:
             new_message = PrivateMessages(username=username, userId=id, message=message)
