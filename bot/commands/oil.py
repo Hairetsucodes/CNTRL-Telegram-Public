@@ -1,5 +1,5 @@
 import yfinance as yf
-``
+
 def oil_price():
     # Define the crude oil symbol
     symbol = "CL=F"  # Symbol for WTI Crude Oil Futures
