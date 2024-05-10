@@ -48,6 +48,8 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message if it's in a group or channel."""
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
+
     chat_type = update.effective_chat.type
     logger.info(f"Chat type: {chat_type}")
     logger.info(f"User: {update.effective_user}")
@@ -59,11 +61,13 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 def main() -> None:
     token = os.getenv("BOT_API_KEY")
     application = Application.builder().token(token).build()
+    echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
 
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("ai", ai))
     # Update the filter to include only group and supergroup chats
-    application.add_handler(ChatMemberHandler(filters.ALL, echo))
+    application.add_handler(echo_handler)
+
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
