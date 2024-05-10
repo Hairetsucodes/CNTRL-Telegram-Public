@@ -30,6 +30,8 @@ Welcome to CNTRL AI bot.
 Here are a list of commands you can use:
 /ai - Use this command to interact with the AI.
 /yt - Use this command to get the last youtube link pasted in chat.
+/word - Use this command to get user word count.
+/tldr - Use this command to get a summary of the chat.
 /help - Use this command to get help.
 
         """
