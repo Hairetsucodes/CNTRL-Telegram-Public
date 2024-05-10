@@ -13,7 +13,7 @@ from commands.yt import lastYT
 from commands.word import words
 from commands.tldr import tldr
 from commands.gold import gold_price
-
+from db.db import check_b7
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -40,24 +40,44 @@ Here are a list of commands you can use:
     )
 
 async def youtube(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user_check = check_b7(update.effective_user.id)
+    if not user_check:
+        response = "You are not authorized to use this command."
+        await update.message.reply_text(response)
+        return
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
     response = lastYT(update.message.chat_id)
     await update.message.reply_text(response)
 
 
 async def gold(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user_check = check_b7(update.effective_user.id)
+    if not user_check:
+        response = "You are not authorized to use this command."
+        await update.message.reply_text(response)
+        return
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
     current_gold_price = gold_price()
     response = f""" The current gold price is: ${current_gold_price}"""
     await update.message.reply_text(response)
 
 async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user_check = check_b7(update.effective_user.id)
+    if not user_check:
+        response = "You are not authorized to use this command."
+        await update.message.reply_text(response)
+        return
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
     wordScore = words(update.message.chat_id, update.effective_user.id)
     response = f""" {wordScore} """
     await update.message.reply_text(response)
 
 async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user_check = check_b7(update.effective_user.id)
+    if not user_check:
+        response = "You are not authorized to use this command."
+        await update.message.reply_text(response)
+        return
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
     
     numbers = re.findall(r'\d+', update.message.text)
@@ -82,6 +102,11 @@ async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user_check = check_b7(update.effective_user.id)
+    if not user_check:
+        response = "You are not authorized to use this command."
+        await update.message.reply_text(response)
+        return
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
     if len(set(update.message.text.strip('/ai '))) < 2:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
@@ -91,6 +116,7 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    
     now = datetime.datetime.now()
     """ sanitize the input and log the message"""
     add_message(id=update.effective_user.id, chatId=update.message.chat_id, username=update.effective_user.username,  message=update.message.text)

@@ -145,3 +145,16 @@ def get_last_x_chat_messages(chatId, x):
         db_session.rollback()
     finally:
         db_session.close()
+        
+def check_b7(userId):
+    db_session = SessionLocal()
+    try:
+        user = db_session.query(User).filter(User.id == userId).first()
+        if user.blacklisted == 1:
+            return True
+        return False
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        db_session.rollback()
+    finally:
+        db_session.close()
