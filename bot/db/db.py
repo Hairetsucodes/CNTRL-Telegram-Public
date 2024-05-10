@@ -44,3 +44,4 @@ def add_message(id, username, chatId, message):
         db_session.rollback()
     finally:
         db_session.close()
+        

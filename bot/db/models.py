@@ -8,14 +8,14 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(BIGINT, primary_key=True)
     username = Column(String(50), nullable=False)
     blacklisted = Column(Integer, default=0)
     
 class PrivateMessages(Base):
     
     __tablename__ = 'messages'
-    id = Column(BIGINT, primary_key=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(50), nullable=False)
     userId = Column(BIGINT, ForeignKey('users.id'), nullable=False)
     message = Column(Text, nullable=False)  # Changed to Text type
