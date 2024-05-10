@@ -18,7 +18,7 @@ def oil_price():
     if response.status_code == 200:
         data = response.json()
         # Assuming the API returns a JSON object and the price is stored under 'price'
-        oil_price = data['data']['price']
+        oil_price = data
         return oil_price
     else:
         return "Failed to fetch data"
