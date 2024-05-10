@@ -42,7 +42,6 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
     print(update.message.text)
     temporary = await update.message.reply_text("Just a second! I am processing your request.")
-    await update.message.delete()
     response = ai_request(update.message.text)
     await update.message.reply_text(response)
 
