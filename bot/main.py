@@ -44,8 +44,6 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     temporary = await update.message.reply_text("Just a second! I am processing your request.")
     await update.message.delete()
     response = ai_request(update.message.text)
-    await context.bot.deleteMessage(message_id=temporary.message_id,
-                                    chat_id=update.message.chat_id)
     await update.message.reply_text(response)
 
 def extract_status_change(chat_member_update: ChatMemberUpdated) -> Optional[Tuple[bool, bool]]:
