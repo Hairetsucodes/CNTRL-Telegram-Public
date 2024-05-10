@@ -2,10 +2,12 @@ import os
 from dotenv import load_dotenv
 import logging
 
+import datetime
+
 from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 from commands.ai import ai_request
-from db.db import engine
+from db.db import engine, add_message
 
 
 logging.basicConfig(
@@ -49,6 +51,8 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
+    now = datetime.now()
+    add_message(user_id=update.effective_user.id, username=update.effective_user.username,  message=update.message.text, created_at=now)
     if update.effective_user.username and update.message.text != "None":
         logger.info(f"User {update.effective_user.username} sent a message: {update.message.text}")
     else:
