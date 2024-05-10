@@ -48,7 +48,7 @@ async def youtube(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def gold(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
     current_gold_price = gold_price()
-    response = f""" {current_gold_price} """
+    response = f""" The current gold price is: ${current_gold_price}"""
     await update.message.reply_text(response)
 
 async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
