@@ -47,7 +47,10 @@ async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
-    tldr_response = tldr(update.message.chat_id, int(update.message.text.strip('/tldr ')[1]))
+    """ strip all text and only get numbers from the message"""
+    return_x = int(update.message.text.isnumeric())
+    print(f"Return x: {return_x}")
+    tldr_response = tldr(update.message.chat_id, return_x)
     response = f""" {tldr_response} """
     await update.message.reply_text(response)
 
