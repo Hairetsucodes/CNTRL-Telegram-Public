@@ -42,7 +42,7 @@ Here are a list of commands you can use:
 async def youtube(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
     if user_check:
-        response = "You are not authorized to use this command."
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
@@ -53,7 +53,7 @@ async def youtube(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def gold(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
     if user_check:
-        response = "You are not authorized to use this command."
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
@@ -64,7 +64,7 @@ async def gold(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
     if user_check:
-        response = "You are not authorized to use this command."
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
@@ -75,7 +75,7 @@ async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
     if user_check:
-        response = "You are not authorized to use this command."
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
@@ -104,7 +104,7 @@ async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
     if user_check:
-        response = "You are not authorized to use this command."
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
