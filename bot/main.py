@@ -58,7 +58,7 @@ async def oil(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         return
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
     current_oil_price = oil_price()
-    response = f""" The current gold price is: ${current_oil_price}"""
+    response = f""" The current price of crude is: ${current_oil_price}"""
     await update.message.reply_text(response)
     
 async def gold(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
