@@ -41,6 +41,14 @@ class Chat(Base):
     createdAt = Column(DateTime, default=datetime.now)
 
 
+class UserWordCount(Base):
+    __tablename__ = 'userWordCount'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    userId = Column(BIGINT, ForeignKey('users.id'), nullable=False)
+    word = Column(String(50), nullable=False)
+    count = Column(Integer, nullable=False)
+    createdAt = Column(DateTime, default=datetime.now)
+
 class WordCounter(Base):
     __tablename__ = 'wordCounter'
     id = Column(Integer, primary_key=True, autoincrement=True)
