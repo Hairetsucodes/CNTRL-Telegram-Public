@@ -26,10 +26,12 @@ def add_user(username, id):
 
 def add_message(id, username, message):
     db_session = SessionLocal()
+    if not db_session.query(User).filter(User.id == id).first():
+        add_user(username, id)
     new_message = Messages(userId=id, username=username, message=message)
     db_session.add(new_message)
     db_session.commit()
     db_session.close()
     
     
-    
+create_tables()
