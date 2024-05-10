@@ -4,7 +4,7 @@ import logging
 from typing import Optional, Tuple
 
 from telegram import ForceReply, Update, Chat, ChatMember, ChatMemberUpdated
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ChatMemberHandler, ChatTypeFilter
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ChatMemberHandler
 from commands.ai import ai_request
 from db.db import engine
 
@@ -61,8 +61,8 @@ def main() -> None:
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("ai", ai))
     # Update the filter to include only group and supergroup chats
-    group_filter = filters.ChatTypeFilter(filters.ChatType.GROUP | filters.ChatType.SUPERGROUP)
-    application.add_handler(MessageHandler(group_filter, echo))
+
+    application.add_handler(MessageHandler("", echo))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
