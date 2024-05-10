@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import Base
-from db import config
+import db.config as config
 from db.models import User, Messages
 
 engine = create_engine(config.DATABASE_URI, echo=True)
