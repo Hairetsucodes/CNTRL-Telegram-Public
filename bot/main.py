@@ -49,6 +49,7 @@ async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     now = datetime.datetime.now()
     add_message(id=update.effective_user.id, username=update.effective_user.username,  message=update.message.text)
     if update.effective_user.username and update.message.text != "None":
+        logger.info(f"full user info: {update.effective_user}")
         logger.info(f"User {update.effective_user.username} sent a message: {update.message.text}")
     else:
         logger.info(f"User {update.effective_user.id} sent a message:")
