@@ -10,6 +10,7 @@ from commands.ai import ai_request
 from db.db import engine, add_message
 from commands.yt import lastYT
 from commands.word import words
+from commands.tldr import tldr
 
 
 logging.basicConfig(
@@ -44,6 +45,12 @@ async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     response = f""" {wordScore} """
     await update.message.reply_text(response)
 
+async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    tldr_response = tldr(update.message.chat_id, int(update.message.text.strip('/tldr ')))
+    response = f""" {tldr_response} """
+    await update.message.reply_text(response)
+
 
 
 
@@ -75,6 +82,7 @@ def main() -> None:
     application.add_handler(CommandHandler("ai", ai))
     application.add_handler(CommandHandler("yt", youtube))
     application.add_handler(CommandHandler("word", word))
+    application.add_handler(CommandHandler("tldr", tldr_ai))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_logging))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 

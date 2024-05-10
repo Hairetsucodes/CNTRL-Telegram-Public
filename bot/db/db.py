@@ -132,3 +132,14 @@ def last_youtube(chatId):
     finally:
         db_session.close()
         
+def get_last_x_chat_messages(chatId, x):
+    db_session = SessionLocal()
+    try:
+        messages = db_session.query(ChatMessages).filter(ChatMessages.chatId == chatId).order_by(ChatMessages.createdAt.desc()).limit(x).all()
+        print(messages)
+        return messages
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        db_session.rollback()
+    finally:
+        db_session.close()
