@@ -9,7 +9,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(50), nullable=False)
-    blacklisted = Column(Integer, nullable=False)
+    blacklisted = Column(Integer, default=0)
     
 class Messages(Base):
     __tablename__ = 'messages' 
