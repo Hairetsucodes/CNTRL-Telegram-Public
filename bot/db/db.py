@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import Base
 import db.config as config
-from db.models import User, PrivateMessages, ChatMessages
+from db.models import User, PrivateMessages, ChatMessages, Chat
 
 engine = create_engine(config.DATABASE_URI, echo=False)
 
@@ -47,7 +47,21 @@ def add_message(id, username, chatId, message: str):
         db_session.close()
         
         
+create_tables()
         
 def add_youtube(message, chatId):
-    print(f"Adding youtube link to chat {chatId}")
-    print(f"Message: {message}")
+    db_session = SessionLocal()
+    try:
+        chat = db_session.query(Chat).filter(Chat.chatId == chatId).first()
+        if not chat:
+            new_chat = Chat(chatId=chatId, lastYT=message)
+            db_session.add(new_chat)
+            db_session.commit()
+        else:
+            chat.lastYT = message
+            db_session.commit()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        db_session.rollback()
+    finally:
+        db_session.close()
