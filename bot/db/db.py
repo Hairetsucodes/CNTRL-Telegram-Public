@@ -55,7 +55,7 @@ def add_word_count(chatId, word, userId):
             new_word_count = WordCounter(word=word, chatId=chatId)
             session.add(new_word_count)
             session.commit()
-        user_word_count = session.query(UserWordCount).filter(UserWordCount.word == word, UserWordCount.userId == userId).first()
+        user_word_count = session.query(UserWordCount).filter(UserWordCount.word == word, UserWordCount.userId == userId, UserWordCount.chatId == chatId).first()
         if not user_word_count:
             new_user_word_count = UserWordCount(word=word, userId=userId, count=1, chatId=chatId, username=session.query(User).filter(User.id == userId).first().username)
             session.add(new_user_word_count)
