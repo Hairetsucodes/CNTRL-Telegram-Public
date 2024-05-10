@@ -49,7 +49,9 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message if it's in a group or channel."""
     chat_type = update.effective_chat.type
-    print(chat_type)
+    logger.info(f"Chat type: {chat_type}")
+    logger.info(f"User: {update.effective_user}")
+    logger.info(f"Chat: {update.effective_chat}")
     if chat_type in ['group', 'supergroup']:
         logger.info(f"User {update.effective_user.id} in chat {update.effective_chat.id} sent a message: {update.message.text}")
     await update.message.reply_text(update.message.text)  # Echoes back the message to the group/channel
