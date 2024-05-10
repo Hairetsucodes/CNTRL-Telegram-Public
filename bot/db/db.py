@@ -4,7 +4,7 @@ from db.models import Base
 import db.config as config
 from db.models import User, Messages
 
-engine = create_engine(config.DATABASE_URI, echo=True)
+engine = create_engine(config.DATABASE_URI, echo=False)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
