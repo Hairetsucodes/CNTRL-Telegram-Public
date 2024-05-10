@@ -1,4 +1,4 @@
-from bot.db.db import get_last_x_chat_messages
+from db.db import get_last_x_chat_messages
 
 
 
