@@ -113,7 +113,7 @@ def last_youtube(chatId):
     try:
         chat = db_session.query(Chat).filter(Chat.chatId == chatId).first()
         if not chat:
-            return "https://www.youtube.com/watch?v=Kz9Mx6XJN7A"
+            return "Sorry there is no youtube link in this chat."
         return chat.lastYT
     except Exception as e:
         print(f"An error occurred: {e}")
