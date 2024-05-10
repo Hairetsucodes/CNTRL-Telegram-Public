@@ -138,6 +138,7 @@ def get_last_x_chat_messages(chatId, x):
         """ return all X message from chatID  """
         messages = db_session.query(ChatMessages).filter(ChatMessages.chatId == chatId).order_by(ChatMessages.createdAt.desc()).limit(x).all()
         """ return message in a list """
+        
         return [message.message for message in messages]
     except Exception as e:
         print(f"An error occurred: {e}")
