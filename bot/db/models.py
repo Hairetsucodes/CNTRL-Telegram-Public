@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime, BIGINT
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 
@@ -27,7 +27,7 @@ class PrivateMessages(Base):
 class ChatMessages(Base):
     __tablename__ = 'chatMessages'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    chatId = Column(Integer, nullable=False)
+    chatId = Column(BIGINT, nullable=False)
     username = Column(String(50), nullable=False)
     userId = Column(Integer, ForeignKey('users.id'), nullable=False)
     message = Column(Text, nullable=False)  # Changed to Text type
