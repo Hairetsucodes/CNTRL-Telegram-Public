@@ -28,10 +28,10 @@ def add_message(id, username, chatId, message):
     db_session = SessionLocal()
     if not db_session.query(User).filter(User.id == id).first():
         add_user(username, id)
-    if id == chatId:
-        new_message = ChatMessages(userId=id, username=username, message=message)
+    if chatId:
+        new_message = ChatMessages(username=username, userId=id, chatId=chatId, message=message)
     else:
-        new_message = PrivateMessages(userId=id, chatId=chatId, username=username, message=message)
+        new_message = PrivateMessages(username=username, userId=id, message=message)
     db_session.add(new_message)
     db_session.commit()
     db_session.close()
