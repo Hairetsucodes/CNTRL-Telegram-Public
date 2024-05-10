@@ -24,7 +24,7 @@ def add_message(user_id, username, message, createdAt):
     db_session = SessionLocal()
     if not db_session.query(User).filter(User.id == user_id).first():
         add_user(username=username, id=User.id)
-    new_message = Messages(id=user_id, username=username, message=message, createdAt=createdAt)
+    new_message = Messages(userId=user_id, username=username, message=message)
     db_session.add(new_message)
     db_session.commit()
     db_session.close()
