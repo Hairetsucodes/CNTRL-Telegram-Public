@@ -19,3 +19,4 @@ def add_user(name, telegram_id):
     db_session.add(new_user)
     db_session.commit()
     db_session.close()
+
