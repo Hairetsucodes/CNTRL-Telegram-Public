@@ -109,6 +109,7 @@ def main() -> None:
     application.add_handler(CommandHandler("ai", ai))
     application.add_handler(CommandHandler("yt", youtube))
     application.add_handler(CommandHandler("word", word))
+    application.add_handler(CommandHandler("gold", gold))
     application.add_handler(CommandHandler("tldr", tldr_ai))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_logging))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
