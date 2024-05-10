@@ -11,40 +11,39 @@ class User(Base):
     id = Column(BIGINT, primary_key=True)
     username = Column(String(50), nullable=False)
     blacklisted = Column(Integer, default=0)
-    
+
+
 class PrivateMessages(Base):
-    
+
     __tablename__ = 'messages'
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(50), nullable=False)
     userId = Column(BIGINT, ForeignKey('users.id'), nullable=False)
-    message = Column(Text, nullable=False)  # Changed to Text type
-    createdAt = Column(DateTime, default=datetime.now)  # Use DateTime type for actual date-time objects
+    message = Column(Text, nullable=False)
+    createdAt = Column(DateTime, default=datetime.now)
 
-    def __repr__(self):
-        return f"<Message(id={self.id}, username='{self.username}', createdAt={self.createdAt})>"
-    
-    
+
 class ChatMessages(Base):
     __tablename__ = 'chatMessages'
     id = Column(Integer, primary_key=True, autoincrement=True)
     chatId = Column(BIGINT, nullable=False)
     username = Column(String(50), nullable=False)
     userId = Column(BIGINT, ForeignKey('users.id'), nullable=False)
-    message = Column(Text, nullable=False)  # Changed to Text type
-    createdAt = Column(DateTime, default=datetime.now)  # Use DateTime type for actual date-time objects
+    message = Column(Text, nullable=False)
+    createdAt = Column(DateTime, default=datetime.now)
 
-    def __repr__(self):
-        return f"<Message(id={self.id}, username='{self.username}', createdAt={self.createdAt})>"
-    
+
 class Chat(Base):
     __tablename__ = 'chats'
     id = Column(Integer, primary_key=True, autoincrement=True)
     chatId = Column(BIGINT, nullable=False)
     lastYT = Column(Text, nullable=True)
-    wordTracker = Column(String(50), nullable=True)
     createdAt = Column(DateTime, default=datetime.now)
-    
-    def __repr__(self):
-        return f"<Chat(id={self.id}, title='{self.title}', createdAt={self.createdAt})>"
-    
+
+
+class WordCounter(Base):
+    __tablename__ = 'wordCounter'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    word = Column(String(50), nullable=False)
+    chatId = Column(BIGINT, nullable=True)
+    createdAt = Column(DateTime, default=datetime.now)

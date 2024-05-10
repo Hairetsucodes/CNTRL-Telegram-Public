@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import Base
 import db.config as config
-from db.models import User, PrivateMessages, ChatMessages, Chat
+from db.models import User, PrivateMessages, ChatMessages, Chat, WordCounter
 
 engine = create_engine(config.DATABASE_URI, echo=False)
 
@@ -24,9 +24,25 @@ def add_user(username, id):
     finally:
         db_session.close()
 
+def get_words(chatId):
+    db_session = SessionLocal()
+    try:
+        words = db_session.query(WordCounter).filter(WordCounter.chatId == chatId).all()
+        return words
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        db_session.rollback()
+    finally:
+        db_session.close()
+
 def add_message(id, username, chatId, message: str):
     if chatId == None:
         return
+    words = get_words
+    for word in words:
+        if word in message:
+            print(f"Word found: {word}")
+            return
     db_session = SessionLocal()
     try:
         user = db_session.query(User).filter(User.id == id).first()
@@ -79,3 +95,6 @@ def last_youtube(chatId):
         db_session.rollback()
     finally:
         db_session.close()
+        
+        
+create_tables()
