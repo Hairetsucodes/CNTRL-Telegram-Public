@@ -65,3 +65,14 @@ def add_youtube(message, chatId):
         db_session.rollback()
     finally:
         db_session.close()
+        
+def last_youtube(chatId):
+    db_session = SessionLocal()
+    try:
+        chat = db_session.query(Chat).filter(Chat.chatId == 0).first()
+        if not chat:
+            return "https://www.youtube.com/watch?v=Kz9Mx6XJN7A"
+        return chat.lastYT
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        db_session.rollback()

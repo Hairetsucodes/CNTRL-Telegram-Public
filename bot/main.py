@@ -8,6 +8,7 @@ from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 from commands.ai import ai_request
 from db.db import engine, add_message
+from commands.yt import lastYT
 
 
 logging.basicConfig(
@@ -28,6 +29,14 @@ Here are a list of commands you can use:
 /help - Use this command to get help.
         """
     )
+
+async def youtube(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    response = lastYT(update.message.chat_id)
+    await update.message.reply_text(response)
+
+
+
 
 
 async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -56,6 +65,8 @@ def main() -> None:
     application = Application.builder().token(token).build()
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("ai", ai))
+    application.add_handler(CommandHandler("youtube", youtube))
+
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_logging))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
