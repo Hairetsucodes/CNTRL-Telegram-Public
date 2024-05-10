@@ -62,7 +62,7 @@ def main() -> None:
     application.add_handler(CommandHandler("ai", ai))
     # Update the filter to include only group and supergroup chats
 
-    application.add_handler(MessageHandler("", echo))
+    application.add_handler(MessageHandler(filters.Filters.all & ~filters.Filters.command, echo))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
