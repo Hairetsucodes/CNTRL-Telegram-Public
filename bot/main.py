@@ -12,6 +12,7 @@ from db.db import engine, add_message
 from commands.yt import lastYT
 from commands.word import words
 from commands.tldr import tldr
+from commands.gold import gold_price
 
 
 logging.basicConfig(
@@ -32,6 +33,7 @@ Here are a list of commands you can use:
 /yt - Use this command to get the last youtube link pasted in chat.
 /word - Use this command to get user word count.
 /tldr - Use this command to get a summary of the chat.
+/gold - Use this command to get the current gold price.
 /cntrlhelp - Use this command to get help.
 
         """
@@ -40,6 +42,13 @@ Here are a list of commands you can use:
 async def youtube(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
     response = lastYT(update.message.chat_id)
+    await update.message.reply_text(response)
+
+
+async def gold(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    current_gold_price = gold_price()
+    response = f""" {current_gold_price} """
     await update.message.reply_text(response)
 
 async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
