@@ -41,17 +41,12 @@ Here are a list of commands you can use:
 async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if len(set(update.message.text.strip('/ai '))) < 2:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
-    print(update.message.text)
-    if update.effective_user.username:
-        print(update.effective_user.username)
     response = ai_request(update.message.text)
-
     await update.message.reply_text(response)
 
 
 async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Echo the user message."""
-    now = datetime.now()
+    now = datetime.datetime.now()
     add_message(user_id=update.effective_user.id, username=update.effective_user.username,  message=update.message.text, created_at=now)
     if update.effective_user.username and update.message.text != "None":
         logger.info(f"User {update.effective_user.username} sent a message: {update.message.text}")
