@@ -46,7 +46,7 @@ def add_word_count(chatId, word, userId):
             session.commit()
         user_word_count = session.query(UserWordCount).filter(UserWordCount.word == word, UserWordCount.userId == userId).first()
         if not user_word_count:
-            new_user_word_count = UserWordCount(word=word, userId=userId, count=1)
+            new_user_word_count = UserWordCount(word=word, userId=userId, count=1, chatId=chatId, username=session.query(User).filter(User.id == userId).first().username)
             session.add(new_user_word_count)
             session.commit()
         else:
@@ -121,5 +121,3 @@ def last_youtube(chatId):
     finally:
         db_session.close()
         
-        
-create_tables()
