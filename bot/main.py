@@ -4,7 +4,7 @@ import logging
 from typing import Optional, Tuple
 
 from telegram import ForceReply, Update, Chat, ChatMember, ChatMemberUpdated
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ChatMemberHandler
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ChatMemberHandler, ChatTypeFilter
 from commands.ai import ai_request
 from db.db import engine
 
