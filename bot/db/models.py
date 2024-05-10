@@ -15,6 +15,7 @@ class User(Base):
 class Messages(Base):
     __tablename__ = 'messages'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String(50), nullable=False)
     userId = Column(Integer, ForeignKey('users.id'), nullable=False)
     message = Column(String(200), nullable=False)
     createdAt = Column(String(50), default=datetime.now())
