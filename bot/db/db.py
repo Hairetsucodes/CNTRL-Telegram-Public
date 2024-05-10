@@ -65,7 +65,7 @@ def add_message(id, username, chatId, message: str):
     print(f"Words: {words}")
     for word in words:
         if word in message:
-            
+            add_word_count(chatId, word, id)
             print(f"Word found: {word}")
             return
     db_session = SessionLocal()
