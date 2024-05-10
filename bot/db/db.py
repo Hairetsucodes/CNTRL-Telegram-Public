@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import Base
 import db.config as config
-from db.models import User, Messages
+from db.models import User, PrivateMessages, ChatMessages
 
 engine = create_engine(config.DATABASE_URI, echo=False)
 
@@ -24,11 +24,14 @@ def add_user(username, id):
     finally:
         db_session.close()
 
-def add_message(id, username, message):
+def add_message(id, username, chatId, message):
     db_session = SessionLocal()
     if not db_session.query(User).filter(User.id == id).first():
         add_user(username, id)
-    new_message = Messages(userId=id, username=username, message=message)
+    if id == chatId:
+        new_message = ChatMessages(userId=id, username=username, message=message)
+    else:
+        new_message = PrivateMessages(userId=id, chatId=chatId, username=username, message=message)
     db_session.add(new_message)
     db_session.commit()
     db_session.close()
