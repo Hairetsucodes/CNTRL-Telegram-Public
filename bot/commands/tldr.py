@@ -27,6 +27,6 @@ def ai_request(prompt, x):
 
 def tldr(chatId, x):
     messages = get_last_x_chat_messages(chatId, x)
-    response = ai_request(messages, x)
+    response = ai_request(str(messages), x)
     print(f"AI response: {response}")
     return response
