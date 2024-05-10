@@ -13,6 +13,7 @@ from commands.yt import lastYT
 from commands.word import words
 from commands.tldr import tldr
 from commands.gold import gold_price
+from commands.oil import oil_price
 from db.db import check_b7
 
 logging.basicConfig(
@@ -49,7 +50,17 @@ async def youtube(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     response = lastYT(update.message.chat_id)
     await update.message.reply_text(response)
 
-
+async def oil(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user_check = check_b7(update.effective_user.id)
+    if user_check:
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
+        await update.message.reply_text(response)
+        return
+    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    current_oil_price = oil_price()
+    response = f""" The current gold price is: ${current_oil_price}"""
+    await update.message.reply_text(response)
+    
 async def gold(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
     if user_check:
@@ -119,6 +130,7 @@ async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     
     now = datetime.datetime.now()
     """ sanitize the input and log the message"""
+    
     add_message(id=update.effective_user.id, chatId=update.message.chat_id, username=update.effective_user.username,  message=update.message.text)
     if update.effective_user.username and update.message.text != "None":
         logger.info(f"full user info: {update.effective_user}")
@@ -135,6 +147,7 @@ def main() -> None:
     application.add_handler(CommandHandler("ai", ai))
     application.add_handler(CommandHandler("yt", youtube))
     application.add_handler(CommandHandler("word", word))
+    application.add_handler(CommandHandler("oil", oil))
     application.add_handler(CommandHandler("gold", gold))
     application.add_handler(CommandHandler("tldr", tldr_ai))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_logging))
