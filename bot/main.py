@@ -26,7 +26,9 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 Welcome to CNTRL AI bot.
 Here are a list of commands you can use:
 /ai - Use this command to interact with the AI.
+/yt - Use this command to get the last youtube link pasted in chat.
 /help - Use this command to get help.
+
         """
     )
 
@@ -65,7 +67,7 @@ def main() -> None:
     application = Application.builder().token(token).build()
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("ai", ai))
-    application.add_handler(CommandHandler("youtube", youtube))
+    application.add_handler(CommandHandler("yt", youtube))
 
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_logging))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
