@@ -26,15 +26,21 @@ def add_user(username, id):
 
 def add_message(id, username, chatId, message):
     db_session = SessionLocal()
-    if not db_session.query(User).filter(User.id == id).first():
-        add_user(username, id)
-    if chatId:
-        new_message = ChatMessages(username=username, userId=id, chatId=chatId, message=message)
-    else:
-        new_message = PrivateMessages(username=username, userId=id, message=message)
-    db_session.add(new_message)
-    db_session.commit()
-    db_session.close()
-    
-    
-create_tables()
+    try:
+        user = db_session.query(User).filter(User.id == id).first()
+        if not user:
+            add_user(username, id)
+            db_session.commit()  # Ensure user addition is committed.
+
+        if chatId == id:  # Assuming this logic is intended; revise if necessary.
+            new_message = ChatMessages(username=username, userId=id, chatId=chatId, message=message)
+        else:
+            new_message = PrivateMessages(username=username, userId=id, message=message)
+
+        db_session.add(new_message)
+        db_session.commit()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        db_session.rollback()
+    finally:
+        db_session.close()
