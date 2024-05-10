@@ -20,11 +20,11 @@ def add_user(name, telegram_id):
     db_session.commit()
     db_session.close()
 
-def add_message(user_id, username, message):
+def add_message(user_id, username, message, createdAt):
     db_session = SessionLocal()
     if not db_session.query(User).filter(User.id == user_id).first():
         add_user(username=username, id=User.id)
-    new_message = Messages(userId=user_id, username=username, message=message)
+    new_message = Messages(userId=user_id, username=username, message=message, createdAt=createdAt)
     db_session.add(new_message)
     db_session.commit()
     db_session.close()
