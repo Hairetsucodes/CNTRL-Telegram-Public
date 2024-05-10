@@ -41,7 +41,6 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if len(set(update.message.text.strip('/ai '))) < 2:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
     print(update.message.text)
-    temporary = await update.message.reply_text("Just a second! I am processing your request.")
     response = ai_request(update.message.text)
     await update.message.reply_text(response)
 
@@ -163,7 +162,7 @@ def main() -> None:
     application = Application.builder().token(token).build()
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("ai", ai))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+    application.add_handler(ChatMemberHandler(filters.TEXT & ~filters.COMMAND, echo))
     application.add_handler(ChatMemberHandler(echo, ChatMemberHandler.MY_CHAT_MEMBER))
     application.add_handler(CommandHandler("show_chats", show_chats))
 
