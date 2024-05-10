@@ -47,7 +47,7 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     now = datetime.datetime.now()
-    add_message(user_id=update.effective_user.id, username=update.effective_user.username,  message=update.message.text)
+    add_message(id=update.effective_user.id, username=update.effective_user.username,  message=update.message.text)
     if update.effective_user.username and update.message.text != "None":
         logger.info(f"User {update.effective_user.username} sent a message: {update.message.text}")
     else:
