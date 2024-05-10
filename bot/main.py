@@ -85,6 +85,7 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     # Handle chat types differently:
     chat = update.effective_chat
+    logger.info("Chat type: %s", chat)
     if chat.type == Chat.PRIVATE:
         if not was_member and is_member:
             # This may not be really needed in practice because most clients will automatically
