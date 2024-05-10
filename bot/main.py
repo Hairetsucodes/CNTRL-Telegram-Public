@@ -49,7 +49,10 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
-    logger.info(f"User {update.effective_user.id} sent a message: {update.message.text}")
+    if update.effective_user.username:
+        logger.info(f"User {update.effective_user.username} sent a message: {update.message.text}")
+    else:
+        logger.info(f"User {update.effective_user.id} sent a message: {update.message.text}")
 
 def main() -> None:
     token = os.getenv("BOT_API_KEY")
