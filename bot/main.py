@@ -62,6 +62,7 @@ async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     print(f"Return x: {return_x}")
     
     tldr_response = tldr(update.message.chat_id, return_x)
+    
     response = f"{tldr_response}"
     
     await update.message.reply_text(response)
