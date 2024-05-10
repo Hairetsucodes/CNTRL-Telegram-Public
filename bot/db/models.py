@@ -16,7 +16,7 @@ class Messages(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     userId = Column(Integer, nullable=False)
     message = Column(String(200), nullable=False)
-    createdAt = Column(String(50), default=datetime.datetime.now())
+    createdAt = Column(String(50), default=datetime.now())
     
 
     
