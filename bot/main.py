@@ -40,6 +40,7 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if len(set(update.message.text.strip('/ai '))) < 2:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
     print(update.message.text)
+    print(update.effective_user)
     response = ai_request(update.message.text)
 
     await update.message.reply_text(response)
