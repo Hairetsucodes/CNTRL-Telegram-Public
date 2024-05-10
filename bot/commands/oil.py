@@ -5,11 +5,10 @@ import requests
 
 def oil_price():
     # This is a placeholder URL and API key
-    api_url = "https://www.alphavantage.co/query?function=WTI&interval=daily"
-    api_key = "UEZCZ77OWPKJHA7J"
+    api_url = "https://www.alphavantage.co/query?function=WTI&interval=daily&apikey=UEZCZ77OWPKJHA7J"
+
 
     headers = {
-        "Authorization": f"Token {api_key}",
         "Content-Type": "application/json"
     }
 
