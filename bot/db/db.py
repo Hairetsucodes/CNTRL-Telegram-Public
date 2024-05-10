@@ -38,7 +38,8 @@ def get_words(chatId):
 def add_message(id, username, chatId, message: str):
     if chatId == None:
         return
-    words = get_words
+    words = get_words(chatId)
+    print(f"Words: {words}")
     for word in words:
         if word in message:
             print(f"Word found: {word}")
