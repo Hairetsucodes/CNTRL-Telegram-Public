@@ -32,7 +32,7 @@ Here are a list of commands you can use:
 /yt - Use this command to get the last youtube link pasted in chat.
 /word - Use this command to get user word count.
 /tldr - Use this command to get a summary of the chat.
-/help - Use this command to get help.
+/cntrlhelp - Use this command to get help.
 
         """
     )
@@ -96,7 +96,7 @@ async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 def main() -> None:
     token = os.getenv("BOT_API_KEY")
     application = Application.builder().token(token).build()
-    application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("cntrlhelp", help_command))
     application.add_handler(CommandHandler("ai", ai))
     application.add_handler(CommandHandler("yt", youtube))
     application.add_handler(CommandHandler("word", word))
