@@ -36,3 +36,15 @@ class ChatMessages(Base):
 
     def __repr__(self):
         return f"<Message(id={self.id}, username='{self.username}', createdAt={self.createdAt})>"
+    
+class Chat(Base):
+    __tablename__ = 'chats'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    chatId = Column(BIGINT, nullable=False)
+    lastYT = Column(Text, nullable=True)
+    wordTracker = Column(String(50), nullable=True)
+    createdAt = Column(DateTime, default=datetime.now)
+    
+    def __repr__(self):
+        return f"<Chat(id={self.id}, title='{self.title}', createdAt={self.createdAt})>"
+    

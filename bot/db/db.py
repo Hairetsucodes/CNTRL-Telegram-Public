@@ -24,14 +24,15 @@ def add_user(username, id):
     finally:
         db_session.close()
 
-def add_message(id, username, chatId, message):
+def add_message(id, username, chatId, message: str):
     db_session = SessionLocal()
     try:
         user = db_session.query(User).filter(User.id == id).first()
         if not user:
             add_user(username, id)
             db_session.commit()  
-
+        if "youtube.com" in message:
+            add_youtube(message, chatId)
         if chatId != id: 
             new_message = ChatMessages(username=username, userId=id, chatId=chatId, message=message)
         else:
@@ -45,3 +46,8 @@ def add_message(id, username, chatId, message):
     finally:
         db_session.close()
         
+        
+        
+def add_youtube(message, chatId):
+    print(f"Adding youtube link to chat {chatId}")
+    print(f"Message: {message}")
