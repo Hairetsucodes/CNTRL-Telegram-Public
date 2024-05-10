@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from db.models import Base
 import db.config as config
-from db.models import User, PrivateMessages, ChatMessages, Chat, WordCounter
+from db.models import User, PrivateMessages, ChatMessages, Chat, WordCounter, UserWordCount
 
 engine = create_engine(config.DATABASE_URI, echo=False)
 
@@ -35,6 +35,29 @@ def get_words(chatId):
     finally:
         db_session.close()
 
+
+def add_word_count(chatId, word, userId):
+    session = SessionLocal()
+    try:
+        word_count = session.query(WordCounter).filter(WordCounter.word == word, WordCounter.chatId == chatId).first()
+        if not word_count:
+            new_word_count = WordCounter(word=word, chatId=chatId)
+            session.add(new_word_count)
+            session.commit()
+        user_word_count = session.query(UserWordCount).filter(UserWordCount.word == word, UserWordCount.userId == userId).first()
+        if not user_word_count:
+            new_user_word_count = UserWordCount(word=word, userId=userId, count=1)
+            session.add(new_user_word_count)
+            session.commit()
+        else:
+            user_word_count.count += 1
+            session.commit()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        session.rollback()
+    finally:
+        session.close()
+
 def add_message(id, username, chatId, message: str):
     if chatId == None:
         return
@@ -42,6 +65,7 @@ def add_message(id, username, chatId, message: str):
     print(f"Words: {words}")
     for word in words:
         if word in message:
+            
             print(f"Word found: {word}")
             return
     db_session = SessionLocal()
