@@ -1,10 +1,9 @@
 import os
 from dotenv import load_dotenv
 import logging
-from typing import Optional, Tuple
 
-from telegram import ForceReply, Update, Chat, ChatMember, ChatMemberUpdated
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ChatMemberHandler
+from telegram import ForceReply, Update
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 from commands.ai import ai_request
 from db.db import engine
 
@@ -16,6 +15,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 logger = logging.getLogger(__name__)
 
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user = update.effective_user
     print(user)
@@ -25,8 +25,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
 
 
-
-        
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         """
@@ -43,25 +41,20 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
     print(update.message.text)
     response = ai_request(update.message.text)
+
     await update.message.reply_text(response)
 
 
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Echo the user message if it's in a group or channel."""
-    chat_type = update.effective_chat.type
-    if chat_type in ['group', 'supergroup']:
-        logger.info(f"User {update.effective_user.id} in chat {update.effective_chat.id} sent a message: {update.message.text}")
-        await update.message.reply_text(update.message.text)  # Echoes back the message to the group/channel
+    """Echo the user message."""
+    logger.info(f"User {update.effective_user.id} sent a message: {update.message.text}")
 
 def main() -> None:
     token = os.getenv("BOT_API_KEY")
     application = Application.builder().token(token).build()
-
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("ai", ai))
-    # Update the filter to include only group and supergroup chats
-    group_filter = (filters.TEXT & ~filters.COMMAND) & (filters.ChatType.GROUPS | filters.ChatType.SUPERGROUPS)
-    application.add_handler(MessageHandler(group_filter, echo))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
