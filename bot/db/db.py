@@ -137,9 +137,9 @@ def get_last_x_chat_messages(chatId, x):
     try:
         """ return all X message from chatID  """
         messages = db_session.query(ChatMessages).filter(ChatMessages.chatId == chatId).all()[-x:]
-        """ return message in a list """
-        print(f"Message: {messages}")
-        return [message.message for message in messages]
+        """ return message in a list make sure to but user name in front of message"""
+        return [f"{message.username}: {message.message}" for message in messages]
+      
     except Exception as e:
         print(f"An error occurred: {e}")
         db_session.rollback()
