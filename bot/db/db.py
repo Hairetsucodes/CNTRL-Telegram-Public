@@ -136,7 +136,7 @@ def get_last_x_chat_messages(chatId, x):
     db_session = SessionLocal()
     try:
         """ return all X message from chatID  """
-        messages = db_session.query(ChatMessages).filter(ChatMessages.chatId == chatId).order_by(ChatMessages.createdAt.desc())
+        messages = db_session.query(ChatMessages).filter(ChatMessages.chatId == chatId).all()[-x:]
         """ return message in a list """
         print(f"Message: {messages}")
         return [message.message for message in messages]
