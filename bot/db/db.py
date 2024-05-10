@@ -28,7 +28,6 @@ def add_message(id, username, chatId, message: str):
     if chatId == None:
         return
     db_session = SessionLocal()
-
     try:
         user = db_session.query(User).filter(User.id == id).first()
         if not user:
@@ -78,3 +77,5 @@ def last_youtube(chatId):
     except Exception as e:
         print(f"An error occurred: {e}")
         db_session.rollback()
+    finally:
+        db_session.close()
