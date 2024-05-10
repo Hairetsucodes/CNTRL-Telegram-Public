@@ -166,7 +166,7 @@ def main() -> None:
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("ai", ai))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
-    application.add_handler(ChatMemberHandler(track_chats, ChatMemberHandler.MY_CHAT_MEMBER))
+    application.add_handler(ChatMemberHandler(echo, ChatMemberHandler.MY_CHAT_MEMBER))
     application.add_handler(CommandHandler("show_chats", show_chats))
 
     # Handle members joining/leaving chats.
