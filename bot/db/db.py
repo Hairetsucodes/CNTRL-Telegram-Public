@@ -36,6 +36,17 @@ def get_words(chatId):
         db_session.close()
 
 
+def word_results(chatId, userId):
+    db_session = SessionLocal()
+    try:
+        words = db_session.query(UserWordCount).filter(UserWordCount.chatId == chatId, UserWordCount.userId == userId).all()
+        return [f"{word.word}: {word.count}" for word in words]
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        db_session.rollback()
+    finally:
+        db_session.close()
+
 def add_word_count(chatId, word, userId):
     session = SessionLocal()
     try:

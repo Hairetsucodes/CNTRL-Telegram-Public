@@ -9,6 +9,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 from commands.ai import ai_request
 from db.db import engine, add_message
 from commands.yt import lastYT
+from commands.word import words
 
 
 logging.basicConfig(
@@ -37,6 +38,11 @@ async def youtube(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     response = lastYT(update.message.chat_id)
     await update.message.reply_text(response)
 
+async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    wordScore = words(update.message.chat_id, update.effective_user.id)
+    response = f""" {wordScore} """
+    await update.message.reply_text(response)
 
 
 
@@ -68,7 +74,7 @@ def main() -> None:
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("ai", ai))
     application.add_handler(CommandHandler("yt", youtube))
-    
+    application.add_handler(CommandHandler("word", word))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_logging))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
