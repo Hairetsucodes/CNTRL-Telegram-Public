@@ -13,18 +13,18 @@ def create_tables():
     Base.metadata.create_all(bind=engine)
 
 
-def add_user(name, telegram_id):
+def add_user(username, id):
     db_session = SessionLocal()
-    new_user = User(name=name, telegram_id=telegram_id)
+    new_user = User(username=username, id=id)
     db_session.add(new_user)
     db_session.commit()
     db_session.close()
 
-def add_message(user_id, username, message):
+def add_message(id, username, message):
     db_session = SessionLocal()
-    if not db_session.query(User).filter(User.id == user_id).first():
-        add_user(username=username, id=User.id)
-    new_message = Messages(userId=user_id, username=username, message=message)
+    if not db_session.query(User).filter(User.id == id).first():
+        add_user(username=username, id=id)
+    new_message = Messages(userId=id, username=username, message=message)
     db_session.add(new_message)
     db_session.commit()
     db_session.close()
