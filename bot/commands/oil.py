@@ -11,4 +11,5 @@ headers = {
 def oil_price():
     response = requests.get(url, headers=headers)
     data = response.json()
-    return data['data']['price']
+    print(data)
+    return data
