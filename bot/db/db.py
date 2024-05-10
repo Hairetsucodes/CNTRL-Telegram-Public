@@ -25,7 +25,10 @@ def add_user(username, id):
         db_session.close()
 
 def add_message(id, username, chatId, message: str):
+    if chatId == None:
+        return
     db_session = SessionLocal()
+
     try:
         user = db_session.query(User).filter(User.id == id).first()
         if not user:
@@ -47,7 +50,6 @@ def add_message(id, username, chatId, message: str):
         db_session.close()
         
         
-create_tables()
         
 def add_youtube(message, chatId):
     db_session = SessionLocal()

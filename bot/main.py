@@ -68,7 +68,7 @@ def main() -> None:
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("ai", ai))
     application.add_handler(CommandHandler("yt", youtube))
-
+    
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_logging))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
