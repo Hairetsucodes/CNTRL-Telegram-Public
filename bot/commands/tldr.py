@@ -34,6 +34,7 @@ def tldr(chatId, x):
 
 def tldr_llama(chatId, x):
     messages = get_last_x_chat_messages(chatId, x)
+    print(f"Messages: {messages}")
     response = llama_ai(str(messages), x)
     print(f"AI response: {response}")
     return response
