@@ -14,6 +14,7 @@ from commands.word import words
 from commands.tldr import tldr
 from commands.gold import gold_price
 from commands.oil import oil_price
+from commands.ai import llama_ai
 from db.db import check_b7
 
 logging.basicConfig(
@@ -110,6 +111,20 @@ async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(response)
 
 
+
+
+async def llama(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user_check = check_b7(update.effective_user.id)
+    if user_check:
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
+        await update.message.reply_text(response)
+        return
+    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    if len(set(update.message.text.strip('/ai '))) < 2:
+        return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
+    response = llama_ai(update.message.text)
+    await update.message.reply_text(response)
+    logger.info(f"AI response: {response}")
 
 
 async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:

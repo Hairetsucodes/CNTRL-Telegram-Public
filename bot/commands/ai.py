@@ -1,7 +1,7 @@
 import os
 from openai import AzureOpenAI
 from dotenv import load_dotenv
-
+import requests
 
 load_dotenv()
 
@@ -23,3 +23,27 @@ def ai_request(prompt):
     )
 
     return completion.choices[0].message.content
+
+
+def llama_ai(prompt):
+    endpoint = 'https://api.together.xyz/v1/chat/completions'
+    res = requests.post(endpoint, json={
+        "model": "meta-llama/Llama-3-70b-chat-hf",
+        "max_tokens": 512,
+        "temperature": 0.7,
+        "top_p": 0.7,
+        "top_k": 50,
+        "repetition_penalty": 1,
+        "stop": [
+            "<|eot_id|>"
+        ],
+        "messages": [
+            {
+                "content": prompt,
+                "role": "user"
+            }
+        ]
+    }, headers={
+        "Authorization": f"Bearer {os.getenv('LLAMA_API_KEY')}",
+    })
+    return res.json()
