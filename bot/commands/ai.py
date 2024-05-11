@@ -46,4 +46,4 @@ def llama_ai(prompt):
     }, headers={
         "Authorization": f"Bearer {os.getenv('LLAMA_API_KEY')}",
     })
-    return res.json()
+    return res.json()['choices'][0]['message']['content']
