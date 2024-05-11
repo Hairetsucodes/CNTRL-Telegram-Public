@@ -2,7 +2,7 @@ from db.db import get_last_x_chat_messages
 import os
 from openai import AzureOpenAI
 from dotenv import load_dotenv
-
+import requests
 
 load_dotenv()
 
@@ -25,8 +25,43 @@ def ai_request(prompt, x):
 
     return completion.choices[0].message.content
 
+
 def tldr(chatId, x):
     messages = get_last_x_chat_messages(chatId, x)
     response = ai_request(str(messages), x)
     print(f"AI response: {response}")
     return response
+
+def tldr_llama(chatId, x):
+    messages = get_last_x_chat_messages(chatId, x)
+    response = llama_ai(str(messages), x)
+    print(f"AI response: {response}")
+    return response
+
+def llama_ai(chatId, x):
+    endpoint = 'https://api.together.xyz/v1/chat/completions'
+
+    res = requests.post(endpoint, json={
+        "model": "meta-llama/Llama-3-70b-chat-hf",
+        "max_tokens": 512,
+        "temperature": 0.7,
+        "top_p": 0.7,
+        "top_k": 50,
+        "repetition_penalty": 1,
+        "stop": [
+            "<|eot_id|>"
+        ],
+        "messages": [
+            {
+                "content": "<human>: Hi! <bot>: My name is TLDR Bot, I am a system for analying conversations and summarizing them.. In response to every request I will summarize the input logs into a detailed sweet tldr response The following is a log file of the last {x} messages in this chat, please provide a summary of the chat..",
+                "role": "system"
+            },
+            {
+                "content": "hi",
+                "role": "user"
+            }
+        ]
+    }, headers={
+        "Authorization": f"Bearer {os.getenv('LLAMA_API_KEY')}",
+    })
+    return res.json()['choices'][0]['message']['content']
