@@ -160,6 +160,7 @@ def main() -> None:
     application = Application.builder().token(token).build()
     application.add_handler(CommandHandler("cntrlhelp", help_command))
     application.add_handler(CommandHandler("ai", ai))
+    application.add_handler(CommandHandler("llama", llama))
     application.add_handler(CommandHandler("yt", youtube))
     application.add_handler(CommandHandler("word", word))
     application.add_handler(CommandHandler("oil", oil))
