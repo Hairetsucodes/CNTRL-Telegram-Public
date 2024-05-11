@@ -122,7 +122,7 @@ async def llama(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
     if len(set(update.message.text.strip('/ai '))) < 2:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
-    response = llama_ai(update.message.text)
+    response = llama_ai(update.message.text.strip('/llama '))
     await update.message.reply_text(response)
     logger.info(f"AI response: {response}")
 
@@ -136,7 +136,7 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
     if len(set(update.message.text.strip('/ai '))) < 2:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
-    response = ai_request(update.message.text)
+    response = ai_request(update.message.text.strip('/ai '))
     await update.message.reply_text(response)
     logger.info(f"AI response: {response}")
 
