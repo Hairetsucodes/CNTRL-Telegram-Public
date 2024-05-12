@@ -70,6 +70,7 @@ def add_word_count(chatId, word, userId):
         session.close()
 
 def add_message(id, username, chatId, message: str):
+    print(username)
     if chatId == None:
         return
     words = get_words(chatId)
