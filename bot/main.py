@@ -168,7 +168,8 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    
+    logger.info(f"full user info: {update.effective_user}")
+
     now = datetime.datetime.now()
     """ sanitize the input and log the message"""
     
