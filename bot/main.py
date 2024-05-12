@@ -171,6 +171,7 @@ async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     
     now = datetime.datetime.now()
     """ sanitize the input and log the message"""
+    print(f"User: {update.effective_user.username} sent a message: {update.message.text}")
     if update.effective_user.username:
         add_message(id=update.effective_user.id, chatId=update.message.chat_id, username=update.effective_user.username,  message=update.message.text)
     else:
