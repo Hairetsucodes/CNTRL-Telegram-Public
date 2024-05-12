@@ -172,7 +172,8 @@ async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     username = "None"
     if update.effective_user.username:
         username = update.effective_user.username
-        
+    else:
+        username = update.effective_user.first_name
     logger.info(f"full user info: {username}")
     now = datetime.datetime.now()
     """ sanitize the input and log the message"""
