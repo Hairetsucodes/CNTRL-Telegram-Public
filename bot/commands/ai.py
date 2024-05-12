@@ -29,7 +29,7 @@ def llama_ai(prompt):
     endpoint = 'https://api.together.xyz/v1/chat/completions'
     res = requests.post(endpoint, json={
         "model": "meta-llama/Llama-3-70b-chat-hf",
-        "max_tokens": 512,
+        "max_tokens": 8000,
         "temperature": 0.3,
         "top_p": 0.7,
         "top_k": 50,

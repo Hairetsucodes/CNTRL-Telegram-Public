@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 import logging
-import re   
+import re
 
 import datetime
 
@@ -25,7 +25,6 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 
-
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         """
@@ -41,15 +40,18 @@ Here are a list of commands you can use:
         """
     )
 
+
 async def youtube(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
     if user_check:
         response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
-    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    logger.info(
+        f"AI command received from: {update.effective_user.username} => {update.message.text}")
     response = lastYT(update.message.chat_id)
     await update.message.reply_text(response)
+
 
 async def oil(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
@@ -57,21 +59,25 @@ async def oil(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
-    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    logger.info(
+        f"AI command received from: {update.effective_user.username} => {update.message.text}")
     current_oil_price = oil_price()
     response = f""" The current price of crude is: ${current_oil_price}"""
     await update.message.reply_text(response)
-    
+
+
 async def gold(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
     if user_check:
         response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
-    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    logger.info(
+        f"AI command received from: {update.effective_user.username} => {update.message.text}")
     current_gold_price = gold_price()
     response = f""" The current gold price is: ${current_gold_price}"""
     await update.message.reply_text(response)
+
 
 async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
@@ -79,10 +85,12 @@ async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
-    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    logger.info(
+        f"AI command received from: {update.effective_user.username} => {update.message.text}")
     wordScore = words(update.message.chat_id, update.effective_user.id)
     response = f""" {wordScore} """
     await update.message.reply_text(response)
+
 
 async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
@@ -90,12 +98,13 @@ async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
-    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
-    
+    logger.info(
+        f"AI command received from: {update.effective_user.username} => {update.message.text}")
+
     numbers = re.findall(r'\d+', update.message.text)
-    
+
     numbers = [int(num) for num in numbers]
-    
+
     if not numbers:
         response = "No numbers found in your message."
         await update.message.reply_text(response)
@@ -103,11 +112,11 @@ async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     return_x = numbers[0]
     print(f"Return x: {return_x}")
-    
+
     tldr_response = tldr(update.message.chat_id, return_x)
-    
+
     response = f"{tldr_response}"
-    
+
     await update.message.reply_text(response)
 
 
@@ -117,12 +126,13 @@ async def llama_tldr(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
-    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
-    
+    logger.info(
+        f"AI command received from: {update.effective_user.username} => {update.message.text}")
+
     numbers = re.findall(r'\d+', update.message.text)
-    
+
     numbers = [int(num) for num in numbers]
-    
+
     if not numbers:
         response = "No numbers found in your message."
         await update.message.reply_text(response)
@@ -130,13 +140,12 @@ async def llama_tldr(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
     return_x = numbers[0]
     print(f"Return x: {return_x}")
-    
-    tldr_response = tldr_llama(update.message.chat_id, return_x)
-    
-    response = f"{tldr_response}"
-    
-    await update.message.reply_text(response)
 
+    tldr_response = tldr_llama(update.message.chat_id, return_x)
+
+    response = f"{tldr_response}"
+
+    await update.message.reply_text(response)
 
 
 async def llama(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -145,7 +154,8 @@ async def llama(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
-    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    logger.info(
+        f"AI command received from: {update.effective_user.username} => {update.message.text}")
     if len(set(update.message.text.strip('/ai '))) < 2:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
     response = llama_ai(update.message.text.strip('/llama '))
@@ -159,7 +169,8 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
-    logger.info(f"AI command received from: {update.effective_user.username} => {update.message.text}")
+    logger.info(
+        f"AI command received from: {update.effective_user.username} => {update.message.text}")
     if len(set(update.message.text.strip('/ai '))) < 2:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
     response = ai_request(update.message.text.strip('/ai '))
@@ -168,7 +179,7 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    
+
     username = ""
     if update.effective_user.username:
         username = "".join(update.effective_user.username)
@@ -177,14 +188,15 @@ async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     logger.info(f"full user info: {username}")
     now = datetime.datetime.now()
     """ sanitize the input and log the message"""
-    
-    add_message(id=update.effective_user.id, chatId=update.message.chat_id, username=username,  message=update.message.text)
+
+    add_message(id=update.effective_user.id, chatId=update.message.chat_id,
+                username=username,  message=update.message.text)
     if update.effective_user.username and update.message.text != "None":
         logger.info(f"full user info: {update.effective_user}")
-        logger.info(f"User {update.effective_user.username} sent a message: {update.message.text}")
+        logger.info(
+            f"User {update.effective_user.username} sent a message: {update.message.text}")
     else:
         logger.info(f"User {update.effective_user.id} sent a message:")
-
 
 
 def main() -> None:
@@ -199,7 +211,8 @@ def main() -> None:
     application.add_handler(CommandHandler("oil", oil))
     application.add_handler(CommandHandler("gold", gold))
     application.add_handler(CommandHandler("tldr", tldr_ai))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, chat_logging))
+    application.add_handler(MessageHandler(
+        filters.TEXT & ~filters.COMMAND, chat_logging))
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
