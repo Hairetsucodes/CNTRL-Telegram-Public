@@ -35,6 +35,10 @@ Here are a list of commands you can use:
 /word - Use this command to get user word count.
 /tldr - Use this command to get a summary of the chat.
 /gold - Use this command to get the current gold price.
+/oil - Use this command to get the current oil price.
+/tldrllama - Use this command to get a summary of the chat using llama AI.
+/dramallama - Use this command to get a summary of the chat using llama AI.
+
 /cntrlhelp - Use this command to get help.
 
         """
@@ -206,6 +210,7 @@ def main() -> None:
     application.add_handler(CommandHandler("ai", ai))
     application.add_handler(CommandHandler("llama", llama))
     application.add_handler(CommandHandler("tldrllama", llama_tldr))
+    application.add_handler(CommandHandler("dramallama", llama_tldr))
     application.add_handler(CommandHandler("yt", youtube))
     application.add_handler(CommandHandler("word", word))
     application.add_handler(CommandHandler("oil", oil))
