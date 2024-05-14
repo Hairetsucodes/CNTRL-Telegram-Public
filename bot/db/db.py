@@ -4,9 +4,16 @@ from db.models import Base
 import db.config as config
 from db.models import User, PrivateMessages, ChatMessages, Chat, WordCounter, UserWordCount
 
+import logging
 engine = create_engine(config.DATABASE_URI, echo=False)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
+logging.getLogger("httpx").setLevel(logging.WARNING)
+
+logger = logging.getLogger(__name__)
 
 
 def create_tables():
@@ -73,10 +80,10 @@ def add_message(id, username, chatId, message: str):
     if chatId == None:
         return
     words = get_words(chatId)
-    for word in words:
-        if word in message:
-            add_word_count(chatId, word, id)
-            return
+    for word in message.split():
+        if word.lower() not in words:
+            logger.info(f"Adding word: {word.lower()}")
+            add_word_count(chatId, word.lower(), id)
     db_session = SessionLocal()
     try:
         user = db_session.query(User).filter(User.id == id).first()
