@@ -89,10 +89,13 @@ def add_message(id, username, chatId, message: str):
         db_session.add(new_message)
         db_session.commit()
 
-        # Count each matched word in the message
+        # Count each occurrence of each word in the message
+        message_words = message.lower().split()
         for word in words:
-            if word in message.lower():
-                add_word_count(chatId, word, id)
+            count = message_words.count(word)
+            if count > 0:
+                for _ in range(count):
+                    add_word_count(chatId, word, id)
 
     except Exception as e:
         print(f"An error occurred: {e}")
