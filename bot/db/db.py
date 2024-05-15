@@ -71,17 +71,23 @@ def add_word_count(chatId, word, userId):
 
 def top_five_leaderboard(chatId):
     db_session = SessionLocal()
+    """ return top 5 users for each word in chatID and say what word it is above as a header """
     try:
-        words = db_session.query(UserWordCount).filter(UserWordCount.chatId == chatId).order_by(UserWordCount.count.desc()).limit(5).all()
-        return [f"{word.username}: {word.count}" for word in words]
+        words = db_session.query(WordCounter).filter(WordCounter.chatId == chatId).all()
+        word_counts = []
+        for word in words:
+            users = db_session.query(UserWordCount).filter(UserWordCount.word == word.word, UserWordCount.chatId == chatId).order_by(UserWordCount.count.desc()).limit(5).all()
+            word_counts.append(f"{word.word}: {', '.join([f'{user.username}: {user.count}' for user in users])}")
+        return word_counts
     except Exception as e:
         print(f"An error occurred: {e}")
         db_session.rollback()
     finally:
         db_session.close()
-    
-
-
+        
+        
+        
+        
 
 def add_message(id, username, chatId, message: str):
     if chatId == None:
