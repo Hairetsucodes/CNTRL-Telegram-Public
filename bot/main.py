@@ -15,6 +15,7 @@ from commands.tldr import tldr, tldr_llama
 from commands.gold import gold_price
 from commands.oil import oil_price
 from commands.ai import llama_ai
+from db.db import top_five_leaderboard
 from db.db import check_b7
 
 logging.basicConfig(
@@ -93,6 +94,14 @@ async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         f"AI command received from: {update.effective_user.username} => {update.message.text}")
     wordScore = words(update.message.chat_id, update.effective_user.id)
     response = f""" {wordScore} """
+    await update.message.reply_text(response)
+
+
+async def top_five(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    results = top_five_leaderboard(update.message.chat_id)
+    logging.info(f"Top five results: {results}")
+    """ format response so it looks good in telegram and present it to the user."""
+    response = "\n".join(results)
     await update.message.reply_text(response)
 
 
@@ -213,6 +222,8 @@ def main() -> None:
     application.add_handler(CommandHandler("dramallama", llama_tldr))
     application.add_handler(CommandHandler("yt", youtube))
     application.add_handler(CommandHandler("word", word))
+    application.add_handler(CommandHandler("top", top_five))
+
     application.add_handler(CommandHandler("oil", oil))
     application.add_handler(CommandHandler("gold", gold))
     application.add_handler(CommandHandler("tldr", tldr_ai))

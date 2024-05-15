@@ -69,6 +69,20 @@ def add_word_count(chatId, word, userId):
     finally:
         session.close()
 
+def top_five_leaderboard(chatId):
+    db_session = SessionLocal()
+    try:
+        words = db_session.query(UserWordCount).filter(UserWordCount.chatId == chatId).order_by(UserWordCount.count.desc()).limit(5).all()
+        return [f"{word.username}: {word.count}" for word in words]
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        db_session.rollback()
+    finally:
+        db_session.close()
+    
+
+
+
 def add_message(id, username, chatId, message: str):
     if chatId == None:
         return
