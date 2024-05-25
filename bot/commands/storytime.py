@@ -23,7 +23,7 @@ def llama_ai(prompt, x):
 
     res = requests.post(endpoint, json={
         "model": "meta-llama/Llama-3-70b-chat-hf",
-        "max_tokens": 512,
+        "max_tokens": 4012,
         "temperature": 0.7,
         "top_p": 0.7,
         "top_k": 50,
