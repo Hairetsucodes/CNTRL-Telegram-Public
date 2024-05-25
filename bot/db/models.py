@@ -7,14 +7,12 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'users'
-
     id = Column(BIGINT, primary_key=True)
     username = Column(String(100), nullable=False)
     blacklisted = Column(Integer, default=0)
 
 
 class PrivateMessages(Base):
-
     __tablename__ = 'messages'
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(100), nullable=False)

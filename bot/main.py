@@ -173,7 +173,7 @@ async def storytime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         f"AI command received from: {update.effective_user.username} => {update.message.text}")
 
 
-    tldr_response = story_llama(update.message.chat_id, 100)
+    tldr_response = story_llama(update.message.chat_id, 20)
 
     response = f"{tldr_response}"
 
