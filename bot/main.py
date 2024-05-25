@@ -12,6 +12,7 @@ from db.db import engine, add_message
 from commands.yt import lastYT
 from commands.word import words
 from commands.tldr import tldr, tldr_llama
+from commands.storytime import story_llama
 from commands.gold import gold_price
 from commands.oil import oil_price
 from commands.ai import llama_ai
@@ -161,6 +162,27 @@ async def llama_tldr(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     await update.message.reply_text(response)
 
 
+
+async def storytime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user_check = check_b7(update.effective_user.id)
+    if user_check:
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
+        await update.message.reply_text(response)
+        return
+    logger.info(
+        f"AI command received from: {update.effective_user.username} => {update.message.text}")
+
+
+    tldr_response = story_llama(update.message.chat_id, 100)
+
+    response = f"{tldr_response}"
+
+    await update.message.reply_text(response)
+
+
+
+
+
 async def llama(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
     if user_check:
@@ -223,7 +245,7 @@ def main() -> None:
     application.add_handler(CommandHandler("yt", youtube))
     application.add_handler(CommandHandler("word", word))
     application.add_handler(CommandHandler("top", top_five))
-
+    application.add_handler(CommandHandler("storytime", storytime))
     application.add_handler(CommandHandler("oil", oil))
     application.add_handler(CommandHandler("gold", gold))
     application.add_handler(CommandHandler("tldr", tldr_ai))
