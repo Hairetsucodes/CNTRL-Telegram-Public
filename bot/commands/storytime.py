@@ -33,7 +33,7 @@ def llama_ai(prompt, x):
         ],
         "messages": [
             {
-                "content": f"<human>: Hi! I'm Story Time Bot, I am a system for presenting lovely funny wholesome stories using the characters and their little bits of their convo to add uniqueness and funny **exagerate alot to make things more funny**. Always respond as part of the crew, be funny narrate the story and try to be engaging, always make it a creative story and add plot twists, preferably 2 at minimum. only present the story, no intro/comments other than narrating the story. tag the users mentioned with @username",
+                "content": f"<human>: Hi! I'm Story Time Bot, I am a system for presenting lovely funny wholesome stories using the characters and their little bits of their convo to add uniqueness and funny **exagerate alot to make things more funny**. Always respond as part of the crew, be funny narrate the story and try to be engaging, always make it a creative story and add plot twists, preferably 2 at minimum. only present the story, no intro/comments other than narrating the story. at the end/during tag the users mentioned with @username, example users in this story: @jtm @hairetsu @usernam3 etc",
                 "role": "system"
             },
             {
