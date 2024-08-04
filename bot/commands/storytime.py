@@ -6,7 +6,9 @@ import requests
 from together import Together
 load_dotenv()
 
-client = Together(os.getenv("LLAMA_API_KEY"))
+
+together_api = os.getenv("LLAMA_API_KEY")
+client = Together(api_key=together_api)
 
 
 def story_llama(chatId, x):
