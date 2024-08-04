@@ -6,11 +6,7 @@ import requests
 from together import Together
 load_dotenv()
 
-client = AzureOpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    api_version="2023-12-01-preview",
-    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
-)
+client = Together(os.getenv("LLAMA_API_KEY"))
 
 
 def story_llama(chatId, x):
