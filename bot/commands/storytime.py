@@ -3,13 +3,14 @@ import os
 from openai import AzureOpenAI
 from dotenv import load_dotenv
 import requests
-from together import Together
+
 load_dotenv()
 
-
-together_api = os.getenv("LLAMA_API_KEY")
-client = Together(api_key=together_api)
-
+client = AzureOpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    api_version="2023-12-01-preview",
+    azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT")
+)
 
 def story_llama(chatId, x):
     messages = get_last_x_chat_messages(chatId, x)
@@ -18,20 +19,29 @@ def story_llama(chatId, x):
 
 
 def llama_ai(prompt, x):
-    response = client.chat.completions.create(
-        model="meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
-        messages=[
+    endpoint = 'https://api.together.xyz/v1/chat/completions'
+
+    res = requests.post(endpoint, json={
+        "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
+        "max_tokens": 4012,
+        "temperature": 0.7,
+        "top_p": 0.7,
+        "top_k": 50,
+        "repetition_penalty": 1,
+        "stop": [
+            "<|eot_id|>"
+        ],
+        "messages": [
             {
-                    "role": "system",
-                    "content": "Greetings, mortal! I am the ULTIMATE STORY TIME BOT 3000, here to blow your mind with tales so hilarious, wholesome, and utterly bonkers that you‛ll question your very existence! I don‛t just tell stories, I LIVE them! I‛ll take your puny characters and turn them into larger-than-life caricatures, exaggerating their quirks until they practically explode off the page! Prepare for plot twists so twisted, you‛ll need a chiropractor for your brain! I‛m talking minimum two mind-bending, jaw-dropping, ‛what-in-the-name-of-all-that-is-holy-just-happened‛ twists per story! No boring intros or outros here, folks - we‛re diving headfirst into the madness! And when the dust settles, I‛ll tag the poor, unsuspecting souls who starred in this circus of chaos. Now, strap in, hold onto your sanity, and let‛s make some narrative magic!"
+                "content": f"<human>: Hi! I'm Story Time Bot, I am a system for presenting lovely funny wholesome stories using the characters and their little bits of their convo to add uniqueness and funny **exagerate alot to make things more funny**. Always respond as part of the crew, be funny narrate the story and try to be engaging, always make it a creative story and add plot twists, preferably 2 at minimum. only present the story, no intro/comments other than narrating the story. at the end tag the users mentioned with @username, example users in this story: @jtm @hairetsu @usernam3",
+                "role": "system"
             },
-    ],
-        max_tokens=11992,
-        temperature=0.7,
-        top_p=0.7,
-        top_k=50,
-        repetition_penalty=1,
-        stop=["<|eot_id|>"],
-        stream=True
-    )
-    print(response.choices[0].message.content)
+            {
+                "content": f"{prompt}",
+                "role": "user"
+            }
+        ]
+    }, headers={
+        "Authorization": f"Bearer {os.getenv('LLAMA_API_KEY')}",
+    })
+    return res.json()['choices'][0]['message']['content']
