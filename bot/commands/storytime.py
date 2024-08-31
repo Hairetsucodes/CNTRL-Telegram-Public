@@ -21,7 +21,7 @@ def story_llama(chatId, x):
 
 def llama_ai(prompt, x):
     endpoint = 'https://api.together.xyz/v1/chat/completions'
-
+    print(prompt)
     res = requests.post(endpoint, json={
         "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
         "max_tokens": 4012,
