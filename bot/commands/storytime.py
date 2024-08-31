@@ -3,7 +3,7 @@ import os
 from openai import AzureOpenAI
 from dotenv import load_dotenv
 import requests
-
+import logging
 load_dotenv()
 
 client = AzureOpenAI(
@@ -21,7 +21,7 @@ def story_llama(chatId, x):
 
 def llama_ai(prompt, x):
     endpoint = 'https://api.together.xyz/v1/chat/completions'
-    print(prompt)
+    logging.info(f"Prompt: {prompt}")   
     res = requests.post(endpoint, json={
         "model": "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
         "max_tokens": 4012,
