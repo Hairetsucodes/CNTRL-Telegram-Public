@@ -3,11 +3,12 @@ from sqlalchemy.orm import sessionmaker
 from db.models import Base
 import db.config as config
 from db.models import User, PrivateMessages, ChatMessages, Chat, WordCounter, UserWordCount
+import logging
 
 engine = create_engine(config.DATABASE_URI, echo=False)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
+logger = logging.getLogger(__name__)
 
 def create_tables():
     Base.metadata.create_all(bind=engine)
@@ -74,19 +75,17 @@ def top_five_leaderboard(chatId):
     """ return top 5 users for each word in chatID and say what word it is above as a header """
     try:
         words = db_session.query(WordCounter).filter(WordCounter.chatId == chatId).all()
+        logger.info(f"Words: {words}")
         word_counts = []
         for word in words:
             users = db_session.query(UserWordCount).filter(UserWordCount.word == word.word, UserWordCount.chatId == chatId).order_by(UserWordCount.count.desc()).limit(5).all()
-            user_info = [f"{user.username} - {user.count}R, {user.count_a}A" for user in users]
-            user_info_formatted = "\n".join([f"{i+1}. {info}" for i, info in enumerate(user_info)])
-            word_counts.append(f"🏆 Leaderboard: {word.word}\n{user_info_formatted}")
+            word_counts.append(f"{word.word}: {', '.join([f'{user.username}: {user.count}' for user in users])}")
         return word_counts
     except Exception as e:
         print(f"An error occurred: {e}")
         db_session.rollback()
     finally:
         db_session.close()
-
         
         
         
