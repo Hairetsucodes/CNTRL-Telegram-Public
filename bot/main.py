@@ -102,13 +102,8 @@ async def top_five(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logging.info(f"Top five results: {results}")
     
     leaderboard = []
-    for result in results:
-        parts = result.split(": ")
-        word = parts[0]
-        users = parts[1].split(", ")
-        user_entries = [user.split(": ") for user in users]
-        
-        formatted_users = [f"{entry[0]} - {entry[1]}" for user in user_entries for entry in user if len(entry) == 2]
+    for word, user_counts in results.items():
+        formatted_users = [f"{user} - {count}" for user, count in user_counts.items()]
         
         leaderboard.append(f"🏆 Leaderboard:\n\nWord: {word}\n" + "\n".join([f"{i+1}. {entry}" for i, entry in enumerate(formatted_users)]))
 
