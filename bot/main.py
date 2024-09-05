@@ -97,8 +97,11 @@ async def word(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     response = f""" {wordScore} """
     await update.message.reply_text(response)
 
+
 async def top_five(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    results = ['nigger: mhu777: 109, a25421: 30, ?: 19, Skrilled: 19, notgranola: 11', 'nigga: UmerF: 68, internetrapper: 63, ?: 63, roastcocaine: 25, dynastoned: 18', 'jew: a25421: 42, hairetsu: 8, roastcocaine: 5, fknbitch: 5, internetrapper: 4']
+    results = top_five_leaderboard(update.message.chat_id)
+    logging.info(f"Top five results: {results}")
+    
     leaderboard = []
     for result in results:
         parts = result.split(": ")
@@ -106,11 +109,11 @@ async def top_five(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         users = parts[1].split(", ")
         user_entries = [user.split(": ") for user in users]
         formatted_users = [f"{entry[0]} - {entry[1]}" for entry in user_entries if len(entry) == 2] 
-        leaderboard.append(f"🏆 Leaderboard:\n\nWord: {word}\n" + "\n".join([f"{i+1}. {entry}" for i, entry in formatted_users]))
+        leaderboard.append(f"🏆 Leaderboard:\n\nWord: {word}\n" + "\n".join([f"{i+1}. {entry}" for i, entry in enumerate(formatted_users)]))
 
-    response = "\n\n".join(leaderboard)
+    response="\n\n".join(leaderboard)
     await update.message.reply_text(response)
-    
+
 async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check=check_b7(update.effective_user.id)
     if user_check:
