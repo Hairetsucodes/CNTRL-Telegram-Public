@@ -69,25 +69,23 @@ def add_word_count(chatId, word, userId):
         session.rollback()
     finally:
         session.close()
-
 def top_five_leaderboard(chatId):
     db_session = SessionLocal()
     """ return top 5 users for each word in chatID and say what word it is above as a header """
     try:
         words = db_session.query(WordCounter).filter(WordCounter.chatId == chatId).all()
         logger.info(f"Words: {words}")
-        word_counts = []
-        for word in words:
+        leaderboard = []
+        for word_index, word in enumerate(words):
             users = db_session.query(UserWordCount).filter(UserWordCount.word == word.word, UserWordCount.chatId == chatId).order_by(UserWordCount.count.desc()).limit(5).all()
-            word_counts.append(f"{word.word}: {', '.join([f'{user.username}: {user.count}' for user in users])}")
-        return word_counts
+            user_entries = [f"{user.username} - {user.R_count}R, {user.A_count}A" for user in users]
+            leaderboard.append(f"{word.word}\n{chr(0x0001F3C6)} Leaderboard:\n" + "\n".join([f"{i+1}. {entry}" for i, entry in enumerate(user_entries)]))
+        return leaderboard
     except Exception as e:
         print(f"An error occurred: {e}")
         db_session.rollback()
     finally:
         db_session.close()
-        
-        
         
         
 
