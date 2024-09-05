@@ -108,7 +108,7 @@ async def top_five(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         users = parts[1].split(", ")
         user_entries = [user.split(": ") for user in users]
         
-        formatted_users = [f"{entry[0]} - {entry[1]}" for entry in user_entries]
+        formatted_users = [f"{entry[0]} - {entry[1]}" for user in user_entries for entry in user if len(entry) == 2]
         
         leaderboard.append(f"🏆 Leaderboard:\n\nWord: {word}\n" + "\n".join([f"{i+1}. {entry}" for i, entry in enumerate(formatted_users)]))
 
