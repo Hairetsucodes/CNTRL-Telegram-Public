@@ -75,7 +75,7 @@ def top_five_leaderboard(chatId):
     """ return top 5 users for each word in chatID and say what word it is above as a header """
     try:
         words = db_session.query(WordCounter).filter(WordCounter.chatId == chatId).all()
-        logger.info(f"Words: {words}")
+        logger.info(words)
         word_counts = []
         for word in words:
             users = db_session.query(UserWordCount).filter(UserWordCount.word == word.word, UserWordCount.chatId == chatId).order_by(UserWordCount.count.desc()).limit(5).all()
