@@ -102,9 +102,17 @@ async def top_five(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     results = top_five_leaderboard(update.message.chat_id)
     logging.info(f"Top five results: {results}")
     """ format response so it looks good in telegram and present it to the user."""
-    response = "\n".join(results)
+    leaderboard = []
+    for result in results:
+        parts = result.split(": ")
+        word = parts[0]
+        users = parts[1].split(", ")
+        user_entries = [user.split(": ") for user in users]
+        formatted_users = [f"{entry[0]} - {entry[1]}" for entry in user_entries]
+        leaderboard.append(f"🏆 Leaderboard:\n\nWord: {word}\n" + "\n".join([f"{i+1}. {entry}" for i, entry in enumerate(formatted_users)]))
+    
+    response = "\n\n".join(leaderboard)
     await update.message.reply_text(response)
-
 
 async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check = check_b7(update.effective_user.id)
