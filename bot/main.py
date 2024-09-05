@@ -108,10 +108,12 @@ async def top_five(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         word = parts[0]
         users = parts[1].split(", ")
         user_entries = [user.split(": ") for user in users]
-        formatted_users = [f"{entry[0]} - {entry[1]}" for entry in user_entries if len(entry) == 2] 
+        
+        formatted_users = [f"{entry[0]} - {entry[1]}" for user in user_entries for entry in user.split(", ")]
+        
         leaderboard.append(f"🏆 Leaderboard:\n\nWord: {word}\n" + "\n".join([f"{i+1}. {entry}" for i, entry in enumerate(formatted_users)]))
 
-    response="\n\n".join(leaderboard)
+    response = "\n\n".join(leaderboard)
     await update.message.reply_text(response)
 
 async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
