@@ -77,13 +77,16 @@ def top_five_leaderboard(chatId):
         word_counts = []
         for word in words:
             users = db_session.query(UserWordCount).filter(UserWordCount.word == word.word, UserWordCount.chatId == chatId).order_by(UserWordCount.count.desc()).limit(5).all()
-            word_counts.append(f"{word.word}: {', '.join([f'{user.username}: {user.count}' for user in users])}")
+            user_info = [f"{user.username} - {user.count}R, {user.count_a}A" for user in users]
+            user_info_formatted = "\n".join([f"{i+1}. {info}" for i, info in enumerate(user_info)])
+            word_counts.append(f"🏆 Leaderboard: {word.word}\n{user_info_formatted}")
         return word_counts
     except Exception as e:
         print(f"An error occurred: {e}")
         db_session.rollback()
     finally:
         db_session.close()
+
         
         
         
