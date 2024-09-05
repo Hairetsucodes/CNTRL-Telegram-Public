@@ -108,83 +108,82 @@ async def top_five(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         word = parts[0]
         users = parts[1].split(", ")
         user_entries = [user.split(": ") for user in users]
-        formatted_users = [
-            f"{entry[0]} - {entry[1]}" for entry in user_entries if len(entry) == 2]
+        formatted_users = [f"{entry[0]} - {entry[1]}" for entry in user_entries if len(entry) == 2]
         leaderboard.append(f"🏆 Leaderboard:\n\nWord: {word}\n" + "\n".join([f"{i+1}. {entry}" for i, entry in enumerate(formatted_users)])
-
-    response="\n\n".join(leaderboard)
+    
+    response = "\n\n".join(leaderboard)
     await update.message.reply_text(response)
 
 async def tldr_ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    user_check=check_b7(update.effective_user.id)
+    user_check = check_b7(update.effective_user.id)
     if user_check:
-        response="I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
     logger.info(
         f"AI command received from: {update.effective_user.username} => {update.message.text}")
 
-    numbers=re.findall(r'\d+', update.message.text)
+    numbers = re.findall(r'\d+', update.message.text)
 
-    numbers=[int(num) for num in numbers]
+    numbers = [int(num) for num in numbers]
 
     if not numbers:
-        response="No numbers found in your message."
+        response = "No numbers found in your message."
         await update.message.reply_text(response)
         return
 
-    return_x=numbers[0]
+    return_x = numbers[0]
     print(f"Return x: {return_x}")
 
-    tldr_response=tldr(update.message.chat_id, return_x)
+    tldr_response = tldr(update.message.chat_id, return_x)
 
-    response=f"{tldr_response}"
+    response = f"{tldr_response}"
 
     await update.message.reply_text(response)
 
 
 async def llama_tldr(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    user_check=check_b7(update.effective_user.id)
+    user_check = check_b7(update.effective_user.id)
     if user_check:
-        response="I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
     logger.info(
         f"AI command received from: {update.effective_user.username} => {update.message.text}")
 
-    numbers=re.findall(r'\d+', update.message.text)
+    numbers = re.findall(r'\d+', update.message.text)
 
-    numbers=[int(num) for num in numbers]
+    numbers = [int(num) for num in numbers]
 
     if not numbers:
-        response="No numbers found in your message."
+        response = "No numbers found in your message."
         await update.message.reply_text(response)
         return
 
-    return_x=numbers[0]
+    return_x = numbers[0]
     print(f"Return x: {return_x}")
 
-    tldr_response=tldr_llama(update.message.chat_id, return_x)
+    tldr_response = tldr_llama(update.message.chat_id, return_x)
 
-    response=f"{tldr_response}"
+    response = f"{tldr_response}"
 
     await update.message.reply_text(response)
 
 
 
 async def storytime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    user_check=check_b7(update.effective_user.id)
+    user_check = check_b7(update.effective_user.id)
     if user_check:
-        response="I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
     logger.info(
         f"AI command received from: {update.effective_user.username} => {update.message.text}")
 
 
-    tldr_response=story_llama(update.message.chat_id, 20)
+    tldr_response = story_llama(update.message.chat_id, 20)
 
-    response=f"{tldr_response}"
+    response = f"{tldr_response}"
 
     await update.message.reply_text(response)
 
@@ -193,44 +192,44 @@ async def storytime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def llama(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    user_check=check_b7(update.effective_user.id)
+    user_check = check_b7(update.effective_user.id)
     if user_check:
-        response="I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
     logger.info(
         f"AI command received from: {update.effective_user.username} => {update.message.text}")
     if len(set(update.message.text.strip('/ai '))) < 2:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
-    response=llama_ai(update.message.text.strip('/llama '))
+    response = llama_ai(update.message.text.strip('/llama '))
     await update.message.reply_text(response)
     logger.info(f"AI response: {response}")
 
 
 async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    user_check=check_b7(update.effective_user.id)
+    user_check = check_b7(update.effective_user.id)
     if user_check:
-        response="I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
+        response = "I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
         return
     logger.info(
         f"AI command received from: {update.effective_user.username} => {update.message.text}")
     if len(set(update.message.text.strip('/ai '))) < 2:
         return await update.message.reply_text('I\'m sorry, I can\'t process empty messages.')
-    response=ai_request(update.message.text.strip('/ai '))
+    response = ai_request(update.message.text.strip('/ai '))
     await update.message.reply_text(response)
     logger.info(f"AI response: {response}")
 
 
 async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
-    username=""
+    username = ""
     if update.effective_user.username:
-        username="".join(update.effective_user.username)
+        username = "".join(update.effective_user.username)
     else:
-        username="".join(update.effective_user.first_name)
+        username = "".join(update.effective_user.first_name)
     logger.info(f"full user info: {username}")
-    now=datetime.datetime.now()
+    now = datetime.datetime.now()
     """ sanitize the input and log the message"""
 
     add_message(id=update.effective_user.id, chatId=update.message.chat_id,
@@ -244,8 +243,8 @@ async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 
 def main() -> None:
-    token=os.getenv("BOT_API_KEY")
-    application=Application.builder().token(token).build()
+    token = os.getenv("BOT_API_KEY")
+    application = Application.builder().token(token).build()
     application.add_handler(CommandHandler("cntrlhelp", help_command))
     application.add_handler(CommandHandler("ai", ai))
     application.add_handler(CommandHandler("llama", llama))
