@@ -88,7 +88,6 @@ def top_five_leaderboard(chatId):
         db_session.close()
         
         
-        
 
 def add_message(id, username, chatId, message: str):
     if chatId == None:

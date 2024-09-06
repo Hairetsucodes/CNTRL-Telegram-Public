@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 import logging
 import re
+import asyncio
 
 import datetime
 
@@ -238,9 +239,9 @@ async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         logger.info(f"User {update.effective_user.id} sent a message:")
 
 
-def main() -> None:
-    token=os.getenv("BOT_API_KEY")
-    application=Application.builder().token(token).build()
+async def main() -> None:
+    token = os.getenv("BOT_API_KEY")
+    application = Application.builder().token(token).build()
     application.add_handler(CommandHandler("cntrlhelp", help_command))
     application.add_handler(CommandHandler("ai", ai))
     application.add_handler(CommandHandler("llama", llama))
@@ -255,9 +256,11 @@ def main() -> None:
     application.add_handler(CommandHandler("tldr", tldr_ai))
     application.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND, chat_logging))
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
-
+    
+    await application.initialize()
+    await application.start()
+    await application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
     load_dotenv()
-    main()
+    asyncio.run(main())
