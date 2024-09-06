@@ -4,7 +4,7 @@ import logging
 import re
 import itertools
 import datetime
-
+from collections import deque  
 from telegram import ForceReply, Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 from commands.ai import ai_request
