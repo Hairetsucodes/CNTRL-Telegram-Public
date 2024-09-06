@@ -220,13 +220,14 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 
+
 async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     username = update.effective_user.username or update.effective_user.first_name
     logger.info(f"full user info: {username}")
     now = datetime.datetime.now()
 
-    # Remove words that repeat within the last 15 words
-    original_message = update.message.text
+    # Convert to lowercase and remove words that repeat within the last 15 words
+    original_message = update.message.text.lower()  # Convert entire message to lowercase
     words = original_message.split()
     cleaned_words = []
     recent_words = deque(maxlen=15)
@@ -241,12 +242,11 @@ async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     add_message(id=update.effective_user.id, chatId=update.message.chat_id,
                 username=username, message=cleaned_message)
 
-    if update.effective_user.username and cleaned_message != "None":
+    if update.effective_user.username and cleaned_message != "none":  # Changed "None" to "none"
         logger.info(f"full user info: {update.effective_user}")
         logger.info(f"User {update.effective_user.username} sent a message: {cleaned_message}")
     else:
         logger.info(f"User {update.effective_user.id} sent a message: {cleaned_message}")
-        
         
 def main() -> None:
     token=os.getenv("BOT_API_KEY")
