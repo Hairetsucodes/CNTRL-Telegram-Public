@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import logging
 import re
-
+import itertools
 import datetime
 
 from telegram import ForceReply, Update
@@ -219,35 +219,22 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    user = update.effective_user
-    message = update.message
+    username = update.effective_user.username or update.effective_user.first_name
+    logger.info(f"full user info: {username}")
+    now = datetime.datetime.now()
 
-    # Get username or first name
-    username = user.username or user.first_name or str(user.id)
+    # Remove consecutive duplicate words
+    original_message = update.message.text
+    cleaned_message = ' '.join(word for word, _ in itertools.groupby(original_message.split()))
 
-    # Sanitize and get message text
-    message_text = message.text if message.text else "No text"
+    add_message(id=update.effective_user.id, chatId=update.message.chat_id,
+                username=username, message=cleaned_message)
 
-    # Log user info and message
-    logger.info(f"User info: {user}")
-    logger.info(f"User {username} (ID: {user.id}) sent a message: {message_text}")
-
-    # Add message to database or perform other logging actions
-    add_message(
-        id=user.id,
-        chatId=message.chat_id,
-        username=username,
-        message=message_text
-    )
-
-
-    if update.effective_user.username and update.message.text != "None":
+    if update.effective_user.username and cleaned_message != "None":
         logger.info(f"full user info: {update.effective_user}")
-        logger.info(
-            f"User {update.effective_user.username} sent a message: {update.message.text}")
+        logger.info(f"User {update.effective_user.username} sent a message: {cleaned_message}")
     else:
-        logger.info(f"User {update.effective_user.id} sent a message:")
-
+        logger.info(f"User {update.effective_user.id} sent a message: {cleaned_message}")
 
 def main() -> None:
     token=os.getenv("BOT_API_KEY")
