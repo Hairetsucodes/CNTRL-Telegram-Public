@@ -217,19 +217,30 @@ async def ai(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logger.info(f"AI response: {response}")
 
 
+
 async def chat_logging(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    user = update.effective_user
+    message = update.message
 
-    username=""
-    if update.effective_user.username:
-        username="".join(update.effective_user.username)
-    else:
-        username="".join(update.effective_user.first_name)
-    logger.info(f"full user info: {username}")
-    now=datetime.datetime.now()
-    """ sanitize the input and log the message"""
+    # Get username or first name
+    username = user.username or user.first_name or str(user.id)
 
-    add_message(id=update.effective_user.id, chatId=update.message.chat_id,
-                username=username,  message=update.message.text)
+    # Sanitize and get message text
+    message_text = message.text if message.text else "No text"
+
+    # Log user info and message
+    logger.info(f"User info: {user}")
+    logger.info(f"User {username} (ID: {user.id}) sent a message: {message_text}")
+
+    # Add message to database or perform other logging actions
+    add_message(
+        id=user.id,
+        chatId=message.chat_id,
+        username=username,
+        message=message_text
+    )
+
+
     if update.effective_user.username and update.message.text != "None":
         logger.info(f"full user info: {update.effective_user}")
         logger.info(
