@@ -186,7 +186,7 @@ def last_five_messages(chatId, userId):
     db_session = SessionLocal()
     try:
         messages = db_session.query(ChatMessages).filter(ChatMessages.chatId == chatId, ChatMessages.userId == userId).all()[-5:]
-        logger.info(f"{message.username}: {message.message}" for message in messages)
+        logger.info(f"{list(messages)}")
         return [f"{message.username}: {message.message}" for message in messages]
     except Exception as e:
         print(f"An error occurred: {e}")
