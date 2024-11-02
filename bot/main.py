@@ -18,6 +18,7 @@ from commands.oil import oil_price
 from commands.ai import llama_ai
 from db.db import top_five_leaderboard
 from db.db import check_b7
+from db.db import last_five_messages
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -189,7 +190,7 @@ async def storytime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def llama(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check=check_b7(update.effective_user.id)
-    last_five_messages=last_five_messages(update.message.chat_id, update.effective_user.id)
+    messages=last_five_messages(update.message.chat_id, update.effective_user.id)
     if user_check:
         response="I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
