@@ -189,6 +189,7 @@ async def storytime(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def llama(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     user_check=check_b7(update.effective_user.id)
+    last_five_messages=last_five_messages(update.message.chat_id, update.effective_user.id)
     if user_check:
         response="I'm sorry, but due to the consensus of the chat, you are not authorized to use this command."
         await update.message.reply_text(response)
