@@ -13,19 +13,19 @@ from telegram.ext import (
     MessageHandler,
     filters,
 )
-from bot.commands.ai import ai_request
-from bot.db.db import add_message
-from bot.commands.yt import lastYT
-from bot.commands.word import words
-from bot.commands.tldr import tldr, tldr_llama
-from bot.commands.storytime import story_llama
-from bot.commands.gold import gold_price
-from bot.commands.oil import oil_price
-from bot.commands.ai import llama_ai
-from bot.db.db import top_five_leaderboard
-from bot.db.db import check_b7
-from bot.db.db import last_five_messages
-from bot.commands.helpme import helpme
+from commands.ai import ai_request
+from db.db import add_message
+from commands.yt import lastYT
+from commands.word import words
+from commands.tldr import tldr, tldr_llama
+from commands.storytime import story_llama
+from commands.gold import gold_price
+from commands.oil import oil_price
+from commands.ai import llama_ai
+from db.db import top_five_leaderboard
+from db.db import check_b7
+from db.db import last_five_messages
+from commands.helpme import helpme
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -40,7 +40,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         return
     await update.message.reply_text(
         """
-Welcome to CNTRL AI bot.
+Welcome to CNTRL AI 
 Here are a list of commands you can use:
 /ai - Use this command to interact with the AI.
 /yt - Use this command to get the last youtube link pasted in chat.
@@ -337,7 +337,7 @@ def main() -> None:
     if not token:
         raise ValueError("BOT_API_KEY environment variable is required")
 
-    from bot.db.db import create_tables
+    from db.db import create_tables
 
     create_tables()
     application = Application.builder().token(token).build()

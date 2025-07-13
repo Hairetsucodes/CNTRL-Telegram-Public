@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from bot.db.models import Base
-from bot.db.models import (
+from db.models import Base
+from db.models import (
     User,
     PrivateMessages,
     ChatMessages,
