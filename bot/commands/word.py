@@ -1,5 +1,4 @@
-from db.db import word_results
-
+from bot.db.db import word_results
 
 
 def words(chatId, userId):

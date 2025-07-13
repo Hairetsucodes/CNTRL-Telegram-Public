@@ -1,5 +1,4 @@
-from db.db import last_youtube
-
+from bot.db.db import last_youtube
 
 
 def lastYT(chatId):

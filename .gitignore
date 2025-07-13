@@ -6,3 +6,4 @@ bot/db/__pycache__/models.cpython-310.pyc
 __pycache__/ai.cpython-310.pyc
 __pycache__/db.cpython-310.pyc
 bot/command/__pycache__
+__pycache__
